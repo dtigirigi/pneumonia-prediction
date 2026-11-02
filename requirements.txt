@@ -1,0 +1,13 @@
+tensorflow
+streamlit
+opencv-python
+pillow
+numpy
+pandas
+matplotlib
+mahotas
+seaboen
+scikit-learn
+xgboost
+joblib
+
