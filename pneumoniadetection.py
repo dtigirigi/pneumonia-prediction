@@ -3,16 +3,28 @@ import numpy as np
 import cv2
 from PIL import Image
 import tensorflow as tf
+import os
+import gdown
+from tensorflow.keras.models import load_model
 
 IMG_SIZE = (224, 224)
 
-# Load CNN model
-@st.cache_resource
-def load_model():
-    model = tf.keras.models.load_model("models/cnn_pneumonia_model.keras")
-    return model
+MODEL_DIR = "models"
+MODEL_PATH = os.path.join(MODEL_DIR, "cnn_pneumonia_model.keras")
 
-model = load_model()
+# Create folder if missing
+os.makedirs(MODEL_DIR, exist_ok=True)
+
+# Google Drive file ID
+FILE_ID = "https://drive.google.com/file/d/1oLioh1MxEYrN7qQofdnDLlRj4FeZTNTS/view?usp=drive_link"
+
+# If model is missing,download it
+if not os.path.exists(MODEL_PATH):
+    url = f"https://drive.google.com/file/d/1oLioh1MxEYrN7qQofdnDLlRj4FeZTNTS/view?usp=drive_link"
+    gdown.download(url, MODEL_PATH, quiet=False)
+
+# Load model
+model = load_model(MODEL_PATH)
 
 # Streamlit UI
 st.title("🩺 Pneumonia Detection from Chest X-ray")
